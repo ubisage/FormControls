@@ -1,7 +1,21 @@
-import React from 'react'
+import React, {useRef, useImperativeHandle}from 'react'
 import classes from './Input.module.css'
+// that is  a ref that should be set from outside 
+const Input = React.forwardRef((props, ref ) => {
+    const inputRef =useRef();
+    const activate = ()=>{
+        inputRef.current.focus();
+    }
 
-const Input = (props) => {
+    useImperativeHandle(
+      ref ,
+      () => {
+       return{
+        // only can use this that is paassed from imperativehabndle
+        focus: activate
+       }
+      }
+    )
   return (
     
       <div
@@ -11,6 +25,7 @@ const Input = (props) => {
         >
           <label htmlFor={props.id}>{props.label}-</label>
           <input
+          ref={inputRef}
             type={props.type}
             id={props.id}
             value={props.value}
@@ -21,5 +36,6 @@ const Input = (props) => {
     
   )
 }
+)
 
 export default Input
